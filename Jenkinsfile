@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_URL = "http://172.18.0.6:9000"
+        SONAR_URL = "http://sonarqube:9000"
         DB_URL = "jdbc:postgresql://postgres:5432/bankdb"
         DB_USER = "sonar"
         DB_PASS = "sonar123"
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
                     sh '''
-                    docker run --rm \
+                    docker run --rm --network bindnamed_jenkins_network\
                     -v $(pwd):/usr/src \
                     sonarsource/sonar-scanner-cli \
                     -Dsonar.projectKey=bank-demo \
