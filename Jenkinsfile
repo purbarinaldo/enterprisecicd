@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
                     sh '''
-                    docker run --rm \
+                    docker run --rm --network bridge \
                     -v $(pwd):/usr/src \
                     sonarsource/sonar-scanner-cli \
                     -Dsonar.projectKey=bank-demo \
