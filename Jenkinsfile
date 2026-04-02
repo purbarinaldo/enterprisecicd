@@ -12,8 +12,13 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'git@github.com:purbarinaldo/enterprisecicd.git'
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          userRemoteConfigs: [[
+                              url: 'git@github.com:purbarinaldo/enterprisecicd.git',
+                              credentialsId: 'githubCred'
+                          ]]
+                ])
             }
         }
 
